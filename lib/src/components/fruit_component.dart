@@ -2,22 +2,46 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/image_composition.dart' as composition;
 import 'package:flutter/material.dart';
-import 'package:fruit_fury/src/config/app_config.dart';
 
+import '../config/app_config.dart';
 import '../config/utils.dart';
+import '../models/fruit_model.dart';
+import '../routes/game_page.dart';
 
-class RectangleTest extends RectangleComponent {
-
+class FruitComponent extends SpriteComponent {
   Vector2 velocity;
   final Vector2 pageSize;
-  Vector2? touchPoint1, touchPoint2;
+  final double acceleration;
+  final FruitModel fruit;
+  final composition.Image image;
+  late Vector2 _initPosition;
+  bool _canDragOnShape = false;
+  GamePage parentComponent;
+  bool divided;
 
-  RectangleTest(Vector2 position, {required this.pageSize, required this.velocity})
-      : super(
-            size: AppConfig.shapeSize,
-            position: position,
-            anchor: Anchor.center);
+  FruitComponent(this.parentComponent,
+      Vector2 p, {
+        Vector2? size,
+        required this.velocity,
+        required this.acceleration,
+        required this.pageSize,
+        required this.image,
+        required this.fruit,
+        double? angle,
+        Anchor? anchor,
+        this.divided = false
+      }) : super(
+    sprite: Sprite(image),
+    position: p,
+    size: size,
+    anchor: anchor ?? Anchor.center,
+    angle: angle,
+  ){
+    _initPosition = p;
+    _canDragOnShape = false;
+  }
 
   @override
   void update(double dt) {
@@ -68,12 +92,12 @@ class RectangleTest extends RectangleComponent {
     }else{
       findGame()?.addAll([
         RectangleComponent(
-          size: Vector2(size.x / 2, size.y),
-          position: center -
-            Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)),
-          angle:  angle,
-          anchor: Anchor.center,
-          paint: Paint()..color = Colors.red
+            size: Vector2(size.x / 2, size.y),
+            position: center -
+                Vector2(size.x / 4 * cos(angle), size.x / 4 * sin(angle)),
+            angle:  angle,
+            anchor: Anchor.center,
+            paint: Paint()..color = Colors.red
         ),
         RectangleComponent(
             size: Vector2(size.x / 2, size.y),
@@ -89,4 +113,5 @@ class RectangleTest extends RectangleComponent {
 
     removeFromParent();
   }
+
 }

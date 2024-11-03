@@ -4,7 +4,7 @@ import 'package:fruit_fury/src/components/rounded_button.dart';
 import 'package:fruit_fury/src/game.dart';
 
 
-class HomePage extends Component with HasGameReference<Game>{
+class HomePage extends Component with HasGameReference<MainRouteGame>{
   late final RoundedButton _button1;
 
   @override
@@ -14,6 +14,7 @@ class HomePage extends Component with HasGameReference<Game>{
     add(_button1 = RoundedButton(
         text: "Start",
         onPressed: () {
+          print("Should print ~~~~~~~~~~~~~~~~");
           game.router.pushNamed('game-page');
         },
         color: Colors.blue,

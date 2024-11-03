@@ -11,6 +11,6 @@ void main() {
   Flame.device.setLandscape();
 
 
-  runApp(GameWidget(game: Game()));
+  runApp(GameWidget(game: MainRouteGame()));
 }
 

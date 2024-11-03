@@ -53,6 +53,7 @@ class RoundedButton extends PositionComponent with TapCallbacks{
   @override
   void onTapUp(TapUpEvent event) {
     scale = Vector2.all(1.0);
+    onPressed.call();
   }
 
   @override
