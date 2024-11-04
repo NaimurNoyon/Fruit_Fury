@@ -54,18 +54,6 @@ class MainRouteGame extends FlameGame{
   }
 
 
-  // @override
-  // void onDragUpdate(DragUpdateEvent event) {
-  //   // TODO: implement onDragUpdate
-  //   super.onDragUpdate(event);
-  //
-  //   componentsAtPoint(event.canvasPosition).forEach((element){
-  //     if(element is RectangleTest){
-  //       element.touchAtPoint(event.canvasPosition);
-  //     }
-  //   });
-  // }
-
 
   @override
   void onGameResize (Vector2 size) {

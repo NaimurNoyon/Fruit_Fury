@@ -99,4 +99,19 @@ class GamePage extends Component with
       });
     }
   }
+
+  @override
+  bool containsLocalPoint(Vector2 point) => true;
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    // TODO: implement onDragUpdate
+    super.onDragUpdate(event);
+
+    componentsAtPoint(event.canvasPosition).forEach((element) {
+      if (element is FruitComponent) {
+        element.touchAtPoint(event.canvasPosition);
+      }
+    });
+  }
 }
