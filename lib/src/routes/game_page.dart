@@ -114,4 +114,8 @@ class GamePage extends Component with
       }
     });
   }
+
+  void gameOver(){
+    game.router.pushNamed('game-over');
+  }
 }

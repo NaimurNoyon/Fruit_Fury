@@ -45,13 +45,16 @@ class FruitComponent extends SpriteComponent {
 
   @override
   void update(double dt) {
-    // TODO: implement update
     super.update(dt);
+
+    if(_initPosition.distanceTo(position) > 60){
+      _canDragOnShape = true;
+    }
 
     angle += .5 * dt;
     angle %= 2 * pi;
 
-    position += Vector2(0, -(velocity.y * dt - .5 * AppConfig.gravity * dt * dt));
+    position += Vector2(velocity.x, -(velocity.y * dt - .5 * AppConfig.gravity * dt * dt));
 
     velocity.y += (AppConfig.acceleration + AppConfig.gravity) * dt;
 
@@ -62,6 +65,14 @@ class FruitComponent extends SpriteComponent {
   }
 
   void touchAtPoint(Vector2 vector2){
+    if(divided && !_canDragOnShape){
+      return;
+    }
+    if(fruit.isBomb){
+      parentComponent.gameOver();
+      return;
+    }
+
     // angleOfTouchPoint
     final a = Utils.getAngleOfTouchPoint(
         center: position,
@@ -85,7 +96,7 @@ class FruitComponent extends SpriteComponent {
             center -
                 Vector2(size.x / 2 * cos(angle), size.x / 2 * sin(angle)),
             fruit: fruit,
-            image: dividedImage1.composeSync(),
+            image: dividedImage2.composeSync(),
             acceleration: acceleration,
             velocity: Vector2(velocity.x - 2, velocity.y),
             pageSize: pageSize,
@@ -104,7 +115,7 @@ class FruitComponent extends SpriteComponent {
           angle: angle,
           anchor: Anchor.center,
           fruit: fruit,
-          image: dividedImage2.composeSync(),
+          image: dividedImage1.composeSync(),
           acceleration: acceleration,
           velocity: Vector2(velocity.x + 2, velocity.y),
           pageSize: pageSize,
