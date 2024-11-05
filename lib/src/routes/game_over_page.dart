@@ -5,6 +5,7 @@ import 'package:flame/game.dart' hide Game;
 import 'package:flame/rendering.dart';
 
 import '../game.dart';
+import 'game_page.dart';
 
 class GameOverRoute extends Route {
   GameOverRoute() : super(GameOverPage.new, transparent: true);
@@ -20,6 +21,12 @@ class GameOverRoute extends Route {
 
   @override
   void onPop(Route nextRoute) {
+    final routeChildren = nextRoute.children.whereType<GamePage>();
+    if(routeChildren.isNotEmpty){
+      final gamePage = routeChildren.first;
+      gamePage.removeAll(gamePage.children);
+    }
+
     nextRoute
       ..resumeTime()
       ..removeRenderEffect();

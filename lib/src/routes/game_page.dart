@@ -17,8 +17,9 @@ class GamePage extends Component with
   final Random random = Random();
   late List<double> fruitsTime;
   late double time, countDown;
-  TextComponent? _countdownTextComponent;
+  TextComponent? _countdownTextComponent, _mistakeTextComponent, _scoreTextComponent;
   bool _countdownFinished = false;
+  late int mistakeCount, score;
 
   @override
   void onMount() {
@@ -27,6 +28,8 @@ class GamePage extends Component with
 
     fruitsTime = [];
     countDown = 3;
+    mistakeCount = 0;
+    score = 0;
     time = 0;
     _countdownFinished = false;
 
@@ -55,6 +58,17 @@ class GamePage extends Component with
         size: Vector2.all(50),
         position: game.size / 2,
         anchor: Anchor.center,
+      ),
+      _mistakeTextComponent = TextComponent(
+        text: 'Mistake $mistakeCount',
+        // 10 is padding
+        position: Vector2(game.size.x - 10, 10),
+        anchor: Anchor.topRight,
+      ),
+      _scoreTextComponent = TextComponent(
+        text: 'Score $score',
+        position: Vector2(game.size.x - 10, _mistakeTextComponent!.position.y + 40),
+        anchor: Anchor.topRight,
       )
     ]);
   }
@@ -117,5 +131,18 @@ class GamePage extends Component with
 
   void gameOver(){
     game.router.pushNamed('game-over');
+  }
+
+  void addScore(){
+    score++;
+    _scoreTextComponent?.text = "Score: $score";
+  }
+
+  void addMistake(){
+    mistakeCount++;
+    _mistakeTextComponent?.text = "Mistake: $mistakeCount";
+    if(mistakeCount >= 3){
+      gameOver();
+    }
   }
 }

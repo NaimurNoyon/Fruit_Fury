@@ -60,6 +60,10 @@ class FruitComponent extends SpriteComponent {
 
     if((position.y - AppConfig.objSize) > pageSize.y){
       removeFromParent();
+
+      if(!divided && !fruit.isBomb){
+        parentComponent.addMistake();
+      }
     }
 
   }
@@ -164,6 +168,8 @@ class FruitComponent extends SpriteComponent {
         )
       ]);
     }
+
+    parentComponent.addScore();
 
     removeFromParent();
   }
